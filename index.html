@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5ef">
+  <meta name="description" content="Borrow, lend, and deliver campus essentials with FlexShare at Palawan State University.">
+  <title>FlexShare — Campus, shared</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-frame">
+    <aside class="rail" aria-label="Primary navigation">
+      <a class="brand-mark" href="#top" aria-label="FlexShare home">f<span>.</span></a>
+      <button class="rail-button active" data-view="market" aria-label="Marketplace" title="Marketplace"><span>⌂</span></button>
+      <button class="rail-button" data-view="dispatch" aria-label="FlexRunner jobs" title="FlexRunner jobs"><span>↗</span></button>
+      <button class="rail-button" data-view="listings" aria-label="My listings" title="My listings"><span>＋</span></button>
+      <div class="rail-spacer"></div>
+      <button class="rail-button" id="inspector-toggle" aria-label="Open database inspector" title="Database inspector"><span>⌘</span></button>
+      <div class="avatar rail-avatar" aria-label="Signed in as Alex Reyes">AR</div>
+    </aside>
+
+    <main id="top" class="main-shell">
+      <header class="topbar">
+        <div class="wordmark">FLEX<span>SHARE</span><i>PSU</i></div>
+        <div class="topbar-right">
+          <span class="campus-tag"><span class="live-dot"></span> Puerto Princesa campus</span>
+          <label class="role-select-wrap" for="role-select"><span class="sr-only">Switch role</span><select id="role-select" aria-label="Switch role"><option value="Borrower">Student borrower</option><option value="Lender">Student lender</option><option value="FlexRunner">FlexRunner courier</option></select><span class="select-chevron">⌄</span></label>
+          <button class="icon-button notification-button" id="notifications-button" aria-label="Show notifications" title="Notifications">♧<b id="notification-count">0</b></button>
+        </div>
+      </header>
+
+      <section class="welcome-row">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> PALAWAN STATE UNIVERSITY</div><h1>Campus, <em>shared.</em></h1><p class="welcome-copy">Good gear, good people, right around the corner.</p></div>
+        <div class="welcome-meta"><div class="today-label">YOUR CAMPUS WALLET</div><div class="wallet-value" id="wallet-balance">₱2,450<span>.00</span></div><span class="wallet-caption">GCash · Maya ready</span></div>
+      </section>
+
+      <nav class="view-tabs" aria-label="Workspace views">
+        <button class="view-tab active" data-view="market">Find equipment <span>01</span></button>
+        <button class="view-tab" data-view="dispatch">Runner dispatch <span id="dispatch-tab-count">03</span></button>
+        <button class="view-tab" data-view="listings">Your listings <span>＋</span></button>
+      </nav>
+
+      <section class="view-panel active" id="market-view" aria-label="Equipment marketplace">
+        <div class="market-layout">
+          <div class="market-main">
+            <div class="section-heading">
+              <div><div class="eyebrow muted">THE CAMPUS EXCHANGE</div><h2>Borrow what you need.</h2></div>
+              <div class="results-count"><strong id="result-count">0</strong> things nearby</div>
+            </div>
+            <div class="market-controls">
+              <label class="search-box"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Try “calculator” or “camera”" autocomplete="off"><kbd>/</kbd></label>
+              <label class="select-filter"><span class="sr-only">Filter by category</span><select id="category-filter"><option value="All">All gear</option><option>Calculators</option><option>Camera & media</option><option>Design tools</option><option>Electronics</option><option>Lab equipment</option></select><span>⌄</span></label>
+              <button class="nearby-button" id="clear-building" hidden>Clear location ×</button>
+            </div>
+            <div class="item-grid" id="item-grid" aria-live="polite"></div>
+            <div class="empty-state" id="empty-state" hidden><span>◌</span><h3>Nothing on this shelf yet.</h3><p>Try another category or campus building.</p></div>
+          </div>
+
+          <aside class="campus-panel">
+            <div class="map-heading"><div><div class="eyebrow muted">FIND IT NEAR YOU</div><h2>Campus map</h2></div><span class="map-north">N ↑</span></div>
+            <p class="map-instruction">Tap a building to see nearby gear.</p>
+            <div class="campus-map" role="group" aria-label="Interactive map of Palawan State University campus buildings">
+              <svg class="map-lines" viewBox="0 0 400 360" aria-hidden="true"><path d="M34 181 C96 170 103 118 173 133 S255 195 349 173 M163 36 C180 104 185 212 230 325 M31 291 C106 266 271 279 365 253 M73 78 C146 80 259 72 335 103"/><path class="map-path-light" d="M34 181 C96 170 103 118 173 133 S255 195 349 173 M163 36 C180 104 185 212 230 325"/></svg>
+              <div class="map-green green-one"></div><div class="map-green green-two"></div><div class="map-green green-three"></div>
+              <button class="map-building building-it" data-building="IT Building"><span class="building-dot"></span><span class="building-name">IT Building</span></button>
+              <button class="map-building building-eng" data-building="Engineering Building"><span class="building-dot"></span><span class="building-name">Engineering</span></button>
+              <button class="map-building building-arch" data-building="Architecture Studio"><span class="building-dot"></span><span class="building-name">Architecture</span></button>
+              <button class="map-building building-nurse" data-building="Nursing Building"><span class="building-dot"></span><span class="building-name">Nursing</span></button>
+              <button class="map-building building-cba" data-building="CBA Building"><span class="building-dot"></span><span class="building-name">CBA</span></button>
+              <span class="map-label label-gate">MAIN GATE</span><span class="map-label label-court">COVERED COURT</span><span class="map-scale">PSU · MAIN CAMPUS</span>
+            </div>
+            <div class="map-legend"><span><i class="legend-dot"></i> Equipment available</span><span><i class="legend-dot selected-dot"></i> Selected</span></div>
+            <div class="map-location-note"><span class="location-icon">⌖</span><div><strong id="map-selection-title">Campus-wide</strong><small id="map-selection-caption">Explore all five campus zones</small></div><span class="item-pin-count" id="map-item-count">0</span></div>
+          </aside>
+        </div>
+        <div class="bottom-note"><span class="shield-icon">◇</span><span>Every rental includes <strong>tiered damage protection</strong> and a photo-verified handoff.</span><button id="how-protection">How it works <span>↗</span></button></div>
+        <section class="rentals-section"><div class="section-heading"><div><div class="eyebrow muted">YOUR CHECKOUTS</div><h2>Current rentals</h2></div><span class="results-count" id="rental-count-label">0 active</span></div><div class="rental-list" id="active-rentals"></div></section>
+      </section>
+
+      <section class="view-panel" id="dispatch-view" aria-label="FlexRunner dispatch board">
+        <div class="subpage-heading"><div><div class="eyebrow muted">EARN BETWEEN CLASSES</div><h2>Runner dispatch.</h2><p>Carry a little. Earn a little. Every run starts on campus.</p></div><div class="runner-earnings"><span>YOUR RUNS TODAY</span><strong id="runner-earnings">₱0</strong></div></div>
+        <div class="dispatch-summary"><span class="live-dot"></span><strong id="open-job-count">0 open runs</strong><span>·</span><span>PSU campus, live now</span><span class="dispatch-right">20% platform share on completed deliveries</span></div>
+        <div class="jobs-list" id="jobs-list"></div>
+      </section>
+
+      <section class="view-panel" id="listings-view" aria-label="Lender listings">
+        <div class="subpage-heading"><div><div class="eyebrow muted">MAKE IDLE GEAR USEFUL</div><h2>List your equipment.</h2><p>Your spare gear could save someone’s deadline.</p></div><div class="lender-summary"><span>YOUR ACTIVE LISTINGS</span><strong id="active-listings-count">0</strong></div></div>
+        <div class="listing-layout">
+          <form class="listing-form" id="listing-form">
+            <div class="form-title"><span class="form-step">01</span><div><h3>Tell us what you’re lending.</h3><p>Listings are visible to verified PSU students.</p></div></div>
+            <label class="form-field">Equipment name<input name="name" required maxlength="48" placeholder="e.g. Canon EOS 250D"></label>
+            <div class="form-two-col"><label class="form-field">Category<select name="category" required><option value="">Choose one</option><option>Calculators</option><option>Camera & media</option><option>Design tools</option><option>Electronics</option><option>Lab equipment</option></select></label><label class="form-field">Campus location<select name="location" required><option value="">Choose building</option><option>IT Building</option><option>Engineering Building</option><option>Architecture Studio</option><option>Nursing Building</option><option>CBA Building</option></select></label></div>
+            <div class="form-two-col"><label class="form-field">Hourly rate <span class="input-prefix"><span>₱</span><input name="hourlyRate" type="number" min="5" max="1000" required placeholder="25"></span></label><label class="form-field">Daily rate <span class="input-prefix"><span>₱</span><input name="dailyRate" type="number" min="30" max="5000" required placeholder="180"></span></label></div>
+            <label class="form-field">Replacement value <span class="input-prefix"><span>₱</span><input name="replacementValue" type="number" min="100" max="200000" required placeholder="5,000"></span></label>
+            <button class="primary-button" type="submit">Publish listing <span>↗</span></button>
+            <p class="form-footnote"><span>◇</span> 12% platform fee applies only when your gear is rented.</p>
+          </form>
+          <aside class="listing-aside"><div class="aside-illustration"><div class="illustration-ring ring-a"></div><div class="illustration-ring ring-b"></div><span class="illustration-box">↗</span><span class="illustration-spark spark-a">✳</span><span class="illustration-spark spark-b">✳</span></div><div class="aside-copy"><div class="eyebrow muted">A LITTLE EXTRA GOES A LONG WAY</div><h3>Make your gear<br>work between classes.</h3><p>Set your own rates. Choose a campus meetup point. We handle the payment breakdown and verified handoff.</p></div><div class="lender-stats"><div><span>AVERAGE CAMPUS RENTAL</span><strong>₱180 <small>/ day</small></strong></div><div><span>STUDENT VERIFIED</span><strong>100% <small>PSU only</small></strong></div></div></aside>
+        </div>
+        <div class="my-listings-section"><div class="section-heading"><div><div class="eyebrow muted">ON THE SHELF</div><h2>Your listings</h2></div><span class="results-count" id="listing-count-label">0 listed</span></div><div id="my-listings" class="my-listings-grid"></div></div>
+      </section>
+
+      <footer class="page-footer"><span>FLEXSHARE <span class="footer-dot">●</span> BUILT FOR PSU STUDENTS</span><span>Local prototype · Demo data stays in this browser</span></footer>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="db-drawer" id="db-drawer" aria-label="Database inspector" aria-hidden="true">
+    <div class="drawer-header"><div><div class="eyebrow">DEVELOPER TOOLS</div><h2>Live database</h2></div><button class="icon-button" id="inspector-close" aria-label="Close database inspector">×</button></div>
+    <div class="drawer-subtitle"><span class="live-dot"></span> localStorage · synced live <button id="copy-database">Copy JSON</button></div>
+    <div class="table-tabs" id="table-tabs"></div>
+    <div class="table-meta"><span id="table-row-count">0 records</span><button id="refresh-database">↻ Refresh</button></div>
+    <pre class="json-view" id="json-view" tabindex="0"></pre>
+    <button class="reset-button" id="reset-database"><span>↻</span> Reset demo database</button>
+    <p class="reset-warning">Restores the original demo records. Your custom listings and rentals will be removed.</p>
+  </aside>
+
+  <dialog class="app-modal checkout-modal" id="checkout-modal">
+    <form method="dialog" class="modal-topline"><div class="modal-kicker">FLEXSHARE CHECKOUT</div><button class="modal-close" aria-label="Close checkout">×</button></form>
+    <div class="checkout-content">
+      <div class="checkout-item" id="checkout-item"></div>
+      <div class="checkout-options">
+        <div class="option-heading"><span>01</span><strong>How long do you need it?</strong></div>
+        <div class="segmented-control" id="duration-toggle"><button class="selected" data-duration="hourly">By the hour</button><button data-duration="daily">By the day</button></div>
+        <label class="duration-input"><span id="duration-label">Hours</span><span><button type="button" id="duration-minus" aria-label="Decrease duration">−</button><input id="duration-value" type="number" min="1" max="24" value="3"><button type="button" id="duration-plus" aria-label="Increase duration">＋</button></span></label>
+        <div class="option-heading delivery-heading"><span>02</span><strong>Choose your handoff</strong></div>
+        <div class="handoff-options"><label class="handoff-option selected"><input type="radio" name="handoff" value="Self-Meetup" checked><span class="radio-mark"></span><span class="handoff-option-copy"><strong>Self-meetup</strong><small>Meet at the lender’s building</small></span><b>Free</b></label><label class="handoff-option"><input type="radio" name="handoff" value="FlexRunner Classroom Delivery"><span class="radio-mark"></span><span class="handoff-option-copy"><strong>FlexRunner delivery</strong><small>Delivered to your classroom</small></span><b id="delivery-fee-label">+₱35</b></label></div>
+        <label class="classroom-field" id="classroom-wrap" hidden>Your classroom / drop-off point<input id="classroom-input" maxlength="60" placeholder="e.g. IT Building, Room 204"></label>
+      </div>
+      <div class="checkout-summary"><div class="summary-title"><strong>Fee breakdown</strong><span>PHP · itemized</span></div><div class="summary-line"><span>Base rental</span><strong id="summary-base">₱0</strong></div><div class="summary-line"><span>Equipment protection <i id="protection-tier">Standard</i></span><strong id="summary-protection">₱0</strong></div><div class="summary-line" id="delivery-summary-row" hidden><span>FlexRunner delivery</span><strong id="summary-delivery">₱0</strong></div><div class="summary-line commission-line"><span>Platform service fee <small>12%</small></span><strong id="summary-commission">₱0</strong></div><div class="summary-total"><span>Total due</span><strong id="summary-total">₱0</strong></div><div class="payment-choice"><span>PAY WITH</span><label><input type="radio" name="payment" value="GCash" checked><b class="gcash-mark">G</b> GCash</label><label><input type="radio" name="payment" value="Maya"><b class="maya-mark">M</b> Maya</label></div><button class="primary-button checkout-submit" id="checkout-submit" type="button">Confirm & pay <span>→</span></button><p class="secure-note">◇ Secure student-to-student payment · demo mode</p></div>
+    </div>
+  </dialog>
+
+  <dialog class="app-modal handoff-modal" id="handoff-modal">
+    <form method="dialog" class="modal-topline"><div class="modal-kicker">PHOTO-VERIFIED HANDOFF</div><button class="modal-close" aria-label="Close handoff">×</button></form>
+    <div class="handoff-content"><div class="handoff-progress"><span class="progress-step active" id="progress-pickup">01 <small>PICKUP</small></span><i></i><span class="progress-step" id="progress-return">02 <small>RETURN</small></span></div><h2 id="handoff-title">Confirm pickup.</h2><p class="handoff-description" id="handoff-description">Scan the lender’s QR token, then add a photo showing the equipment’s current condition.</p><div class="qr-token-box"><div class="qr-pattern" id="qr-pattern" aria-hidden="true"></div><div><span>YOUR HANDOFF TOKEN</span><strong id="handoff-token">FS-PSU-0000</strong><small>Demo scan · token verification enabled</small></div></div><button class="scan-qr-button" id="scan-qr" type="button">Simulate QR scan <span>⌗</span></button><label class="photo-upload" for="condition-photo"><span class="photo-icon">▧</span><span><strong id="photo-label">Add before photo</strong><small>JPG, PNG or WEBP · photo is required</small></span><span class="upload-action" id="upload-action">Choose photo</span><input type="file" id="condition-photo" accept="image/jpeg,image/png,image/webp" capture="environment"></label><div class="photo-preview" id="photo-preview" hidden></div><button class="sample-photo" id="sample-photo" type="button">Use sample condition photo</button><button class="primary-button handoff-submit" id="handoff-submit" type="button" disabled>Verify pickup <span>→</span></button><p class="handoff-status" id="handoff-status" aria-live="polite"></p></div>
+  </dialog>
+
+  <dialog class="app-modal info-modal" id="info-modal"><form method="dialog" class="modal-topline"><div class="modal-kicker" id="info-kicker">FLEXSHARE</div><button class="modal-close" aria-label="Close">×</button></form><div id="info-content" class="info-content"></div></dialog>
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+</body>
+</html>
